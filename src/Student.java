@@ -3,8 +3,8 @@ public class Student {
     private String answer;
 
     public Student() {
-        this.studentID = "default";
-        this.answer = "default";
+        this.studentID = "";
+        this.answer = "";
     }
 
     public void setID(String studentID) {

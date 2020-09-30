@@ -1,4 +1,4 @@
-public class MultipleChoice implements Question { // Sets the question type and answer for multiple choice questions
+public class SingleChoice implements Question { // Sets the question type and answer for single choice questions
     String question;
     String answer;
 
@@ -18,6 +18,6 @@ public class MultipleChoice implements Question { // Sets the question type and 
     }
 
     public boolean isMultipleChoice() {
-        return true;
+        return false;
     }
 }

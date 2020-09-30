@@ -1,71 +1,66 @@
 import java.util.*;
 
 public class SimulationDriver {
-    private static Random r = new Random();
+    private static Random random = new Random();
     private static Student[] students;
-    private static Question q;
+    private static Question question;
 
     public static void main(String[] args) {
         students = createStudents();
 
-        int num = r.nextInt((100 - 1) + 1) + 1;
-
+        int num = random.nextInt(100); // Uses a random number generator to choose the question type
         if (num % 2 == 0) {
-            q = new MultipleChoice();
-            multiple();
+            question = new MultipleChoice();
+            multipleChoice();
         } else {
-            q = new TrueFalse();
-            single();
+            question = new SingleChoice();
+            singleChoice();
         }
-
-        VotingService v = new VotingService(students, q);
+        new VotingService(students, question);
     }
 
-    private static void multiple() { // answers for multiple choice question
-        String answers[] = {"A", "B", "C", "D"};
-        q.setQuestion("Choose the correct multiple choice answer");
-        int index = r.nextInt(4);
-        q.setAnswer(answers[index]); // set correct answer to the question
+    private static void multipleChoice() {
+        String answers[] = {"A", "B", "C", "D"}; // Initiates all possible answers for this question type
+        question.setQuestion("Multiple Choice");
 
-        for (Student i : students) { // assign an answer to each student
-            index = r.nextInt(4);
+        int index = random.nextInt(4); // Randomly determines which answer is the correct one
+        question.setAnswer(answers[index]);
+        for (Student i : students) { // Uses a RNG to determine every student's answer
+            index = random.nextInt(4);
             i.setAnswer(answers[index]);
         }
     }
 
 
-    private static void single() { // answers for single choice question
-        q.setQuestion("Write the correct answer");
-        q.setAnswer("Right"); // set correct answer to the question
+    private static void singleChoice() {
+        question.setQuestion("Single Choice");
+        question.setAnswer("Right"); // Initiates the only possible correct answer for this question type
 
         int index = 0;
-        for (Student i : students) { // assign an answer to each student
-            index = r.nextInt(3);
-            if (index % 2 == 0)
+        for (Student i : students) { // Uses a RNG to determine every student's answer
+            index = random.nextInt(3);
+            if (index % 2 == 0) {
                 i.setAnswer("Right");
-            else
+            } else {
                 i.setAnswer("Wrong");
+            }
         }
     }
 
-    private static Student[] createStudents(){
-        int numOfStudents = r.nextInt(100-30) + 30; // generate number of students between 30 - 100
-
-        Student students[] = new Student[numOfStudents];
-        for (int i = 0; i < numOfStudents; i++) { // initiate all student objects
+    private static Student[] createStudents() {
+        Student students[] = new Student[60]; // Initializes all 60 students
+        for (int i = 0; i < 60; i++) {
             students[i] = new Student();
         }
 
-        List<String> idNumbers= new ArrayList<>(); // holds all unique student IDs
-
-        for (Student i : students) { // traverse array and assign each student a unique ID
-            i.setID(Integer.toString(r.nextInt(9999-1000) + 1000));
-            while (idNumbers.contains(i.getID())){ // make sure that no duplicate IDs
-                i.setID(Integer.toString(r.nextInt(9999-1000) + 1000));
+        List<String> studentID = new ArrayList<>(); // Creates a list to store all student IDs
+        for (Student i : students) { // Assigns a unique ID to every student and checks for duplicates
+            i.setID(Integer.toString(random.nextInt(99999 - 10000) + 10000));
+            while (studentID.contains(i.getID())){
+                i.setID(Integer.toString(random.nextInt(99999 - 10000) + 10000));
             }
-            idNumbers.add(i.getID());
+            studentID.add(i.getID());
         }
-
         return students;
     }
 }
