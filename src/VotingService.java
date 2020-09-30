@@ -9,7 +9,7 @@ public class VotingService {
         this.students = students;
         this.question = question;
 
-        if (question.isMultipleChoice()) {
+        if (question.isMultipleChoice()) { // Determines if the question is single or multiple choice
             checkMultipleChoice();
         } else {
             checkSingleChoice();
